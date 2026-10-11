@@ -1,4 +1,2 @@
-DOMAIN-SUFFIX,embyplus.org
-DOMAIN-SUFFIX,emby.pilipiliultra.com
-DOMAIN-SUFFIX,ch.feiyue.lol
-DOMAIN-SUFFIX,emby.levilde.bond
+DOMAIN-SUFFIX,rais115.mrstudio.vip
+DOMAIN-SUFFIX,115cdn.de
