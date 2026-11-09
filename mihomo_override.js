@@ -262,7 +262,7 @@ function main(config) {
 
   // 7. 分流规则 (Rules)
   config['rules'] = [
-    'AND,((NETWORK,UDP),(DST-PORT,443),(RULE-SET,youtube_domain)),REJECT-DROP',
+    'AND,((NETWORK,UDP),(DST-PORT,443),(RULE-SET,youtube_domain)),REJECT',
     'RULE-SET,private_domain,DIRECT',
     'RULE-SET,private_ip,DIRECT,no-resolve',
     'RULE-SET,apple,DIRECT',
