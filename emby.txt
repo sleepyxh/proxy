@@ -1,2 +1,2 @@
-DOMAIN-SUFFIX,rais115.mrstudio.vip
-DOMAIN-SUFFIX,115cdn.de
++.mrstudio.vip
++.115cdn.de
