@@ -108,7 +108,7 @@ function main(config) {
     },
     "tun": {
       "enable": true,
-      "stack": "system", // 注：原配置为 mips（非标准值），建议改为 system / gvisor / mixed
+      "stack": "mips", // 注：原配置为 mips（非标准值），建议改为 system / gvisor / mixed
       "dns-hijack": ["udp://any:53", "tcp://any:53"],
       "auto-route": true,
       "auto-redirect": true,
