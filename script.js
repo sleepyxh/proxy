@@ -1,6 +1,26 @@
 function main(config) {
   const proxies = config.proxies || [];
 
+  // 统一定义健康检查（测速）参数
+  const healthCheckUrl = "https://www.apple.com/library/test/success.html";
+  const healthCheckInterval = 300;
+  const groupHealthCheck = {
+    url: healthCheckUrl,
+    interval: healthCheckInterval
+  };
+
+  // 如果原配置中包含 proxy-providers，自动为其补齐 health-check
+  if (config["proxy-providers"]) {
+    for (const key in config["proxy-providers"]) {
+      config["proxy-providers"][key]["interval"] = config["proxy-providers"][key]["interval"] || 86400;
+      config["proxy-providers"][key]["health-check"] = {
+        enable: true,
+        url: healthCheckUrl,
+        interval: healthCheckInterval
+      };
+    }
+  }
+
   // 1. 定义需要识别的地区组及其正则匹配规则
   const regionConfigs = [
     {
@@ -38,7 +58,7 @@ function main(config) {
   const activeRegionGroups = [];
   const activeRegionNames = [];
 
-  // 2. 检测订阅中是否存在对应地区的节点
+  // 2. 检测订阅中是否存在对应地区的节点（有则生成，没有则跳过）
   for (const r of regionConfigs) {
     const matched = proxies.filter(p => r.regex.test(p.name)).map(p => p.name);
     if (matched.length > 0) {
@@ -46,6 +66,7 @@ function main(config) {
       activeRegionGroups.push({
         name: r.name,
         type: "select",
+        ...groupHealthCheck,
         proxies: matched,
         icon: r.icon
       });
@@ -62,12 +83,13 @@ function main(config) {
     activeRegionGroups.push({
       name: "其它地区",
       type: "select",
+      ...groupHealthCheck,
       proxies: otherMatched,
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Global.svg"
     });
   }
 
-  // 兜底机制：如果订阅是通过 proxy-providers 引入导致 config.proxies 为空，则保留全部地区组并开启 include-all
+  // 兜底机制：如果是纯 proxy-providers 模式（config.proxies 为空），保留地区组并开启 include-all
   const isProviderMode = proxies.length === 0;
   if (isProviderMode) {
     for (const r of regionConfigs) {
@@ -75,6 +97,7 @@ function main(config) {
       activeRegionGroups.push({
         name: r.name,
         type: "select",
+        ...groupHealthCheck,
         "include-all": true,
         filter: r.filter,
         icon: r.icon
@@ -84,6 +107,7 @@ function main(config) {
     activeRegionGroups.push({
       name: "其它地区",
       type: "select",
+      ...groupHealthCheck,
       "include-all": true,
       "exclude-filter": regionConfigs.map(r => r.filter.replace("(?i)", "")).join("|"),
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Global.svg"
@@ -99,7 +123,7 @@ function main(config) {
     "unified-delay": true,
     "tcp-concurrent": true,
     "find-process-mode": "off",
-    "external-controller": "127.0.0.1:9090",
+    "external-controller": "0.0.0.0:9090",
     "external-ui": "ui",
     "external-ui-url": "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip",
     "profile": {
@@ -108,7 +132,7 @@ function main(config) {
     },
     "tun": {
       "enable": true,
-      "stack": "mips", // 注：原配置为 mips（非标准值），建议改为 system / gvisor / mixed
+      "stack": "mips",
       "dns-hijack": ["udp://any:53", "tcp://any:53"],
       "auto-route": true,
       "auto-redirect": true,
@@ -144,18 +168,21 @@ function main(config) {
     {
       name: "代理",
       type: "select",
+      ...groupHealthCheck,
       proxies: [...activeRegionNames, "全部节点"],
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Proxy.svg"
     },
     {
       name: "AI",
       type: "select",
+      ...groupHealthCheck,
       proxies: ["代理", ...activeRegionNames],
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/OpenAI.svg"
     },
     {
       name: "TG",
       type: "select",
+      ...groupHealthCheck,
       proxies: ["代理", ...activeRegionNames],
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Telegram.svg"
     },
@@ -163,6 +190,7 @@ function main(config) {
     {
       name: "全部节点",
       type: "select",
+      ...groupHealthCheck,
       "include-all": true,
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Global.svg"
     }
