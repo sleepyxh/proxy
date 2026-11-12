@@ -4,10 +4,6 @@ function main(config) {
   // 统一定义健康检查（测速）参数
   const healthCheckUrl = "https://www.apple.com/library/test/success.html";
   const healthCheckInterval = 300;
-  const groupHealthCheck = {
-    url: healthCheckUrl,
-    interval: healthCheckInterval
-  };
 
   // 如果原配置中包含 proxy-providers，自动为其补齐 health-check
   if (config["proxy-providers"]) {
@@ -66,7 +62,6 @@ function main(config) {
       activeRegionGroups.push({
         name: r.name,
         type: "select",
-        ...groupHealthCheck,
         proxies: matched,
         icon: r.icon
       });
@@ -83,7 +78,6 @@ function main(config) {
     activeRegionGroups.push({
       name: "其它地区",
       type: "select",
-      ...groupHealthCheck,
       proxies: otherMatched,
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Global.svg"
     });
@@ -97,7 +91,6 @@ function main(config) {
       activeRegionGroups.push({
         name: r.name,
         type: "select",
-        ...groupHealthCheck,
         "include-all": true,
         filter: r.filter,
         icon: r.icon
@@ -107,7 +100,6 @@ function main(config) {
     activeRegionGroups.push({
       name: "其它地区",
       type: "select",
-      ...groupHealthCheck,
       "include-all": true,
       "exclude-filter": regionConfigs.map(r => r.filter.replace("(?i)", "")).join("|"),
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Global.svg"
@@ -163,26 +155,23 @@ function main(config) {
     }
   });
 
-  // 5. 组装策略组
+  // 5. 组装策略组（仅在“全部节点”保留测速参数）
   config["proxy-groups"] = [
     {
       name: "代理",
       type: "select",
-      ...groupHealthCheck,
       proxies: [...activeRegionNames, "全部节点"],
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Proxy.svg"
     },
     {
       name: "AI",
       type: "select",
-      ...groupHealthCheck,
       proxies: ["代理", ...activeRegionNames],
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/OpenAI.svg"
     },
     {
       name: "TG",
       type: "select",
-      ...groupHealthCheck,
       proxies: ["代理", ...activeRegionNames],
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Telegram.svg"
     },
@@ -190,7 +179,8 @@ function main(config) {
     {
       name: "全部节点",
       type: "select",
-      ...groupHealthCheck,
+      url: healthCheckUrl,
+      interval: healthCheckInterval,
       "include-all": true,
       icon: "https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Global.svg"
     }
