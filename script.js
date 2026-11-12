@@ -214,4 +214,13 @@ function main(config) {
     "RULE-SET,embydirect,DIRECT",
     "RULE-SET,AI,AI",
     "RULE-SET,telegram_domain,TG",
-    "RULE-SET,telegram
+    "RULE-SET,telegram_ip,TG,no-resolve",
+    "RULE-SET,google_domain,代理",
+    "RULE-SET,cn_domain,DIRECT",
+    "RULE-SET,geolocation-!cn,代理",
+    "RULE-SET,cn_ip,DIRECT",
+    "MATCH,代理"
+  ];
+
+  return config;
+}
