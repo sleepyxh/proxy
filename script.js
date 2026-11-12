@@ -129,7 +129,8 @@ function main(config) {
       "auto-route": true,
       "auto-redirect": true,
       "auto-detect-interface": true,
-      "disable-icmp-forwarding": true
+      "disable-icmp-forwarding": true,
+      "strict-route": true
     },
     "hosts": {
       "dns.alidns.com": ["223.5.5.5", "223.6.6.6"],
