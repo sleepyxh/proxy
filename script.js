@@ -143,11 +143,11 @@ function main(config) {
       "fake-ip-range": "198.18.0.1/16",
       "fake-ip-range6": "fdfe:dcba:9876::1/64",
       "fake-ip-filter": ["rule-set:private_domain", "rule-set:cn_domain"],
-      "default-nameserver": ["https://223.5.5.5/dns-query"],
+      "default-nameserver": ["223.5.5.5"],
       "proxy-server-nameserver": ["https://dns.alidns.com/dns-query"],
       "direct-nameserver": ["https://dns.alidns.com/dns-query"],
       "direct-nameserver-follow-policy": true,
-      "nameserver": ["https://dns.google/dns-query#代理&ecs=223.5.5.0/24"],
+      "nameserver": ["https://dns.google/dns-query#代理"],
       "nameserver-policy": {
         "rule-set:private_domain": "system",
         "rule-set:cn_domain": "https://dns.alidns.com/dns-query"
@@ -214,13 +214,4 @@ function main(config) {
     "RULE-SET,embydirect,DIRECT",
     "RULE-SET,AI,AI",
     "RULE-SET,telegram_domain,TG",
-    "RULE-SET,telegram_ip,TG,no-resolve",
-    "RULE-SET,google_domain,代理",
-    "RULE-SET,cn_domain,DIRECT",
-    "RULE-SET,geolocation-!cn,代理",
-    "RULE-SET,cn_ip,DIRECT",
-    "MATCH,代理"
-  ];
-
-  return config;
-}
+    "RULE-SET,telegram
