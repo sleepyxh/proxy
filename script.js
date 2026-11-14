@@ -129,7 +129,6 @@ function main(config) {
       "auto-route": true,
       "auto-redirect": true,
       "auto-detect-interface": true,
-      "disable-icmp-forwarding": true,
       "strict-route": true
     },
     "hosts": {
