@@ -39,7 +39,6 @@ tun:
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
-  disable-icmp-forwarding: true
 
 # ==========================================
 # 4. Hosts 与 DNS 配置
