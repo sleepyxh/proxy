@@ -128,8 +128,7 @@ function main(config) {
       "dns-hijack": ["udp://any:53", "tcp://any:53"],
       "auto-route": true,
       "auto-redirect": true,
-      "auto-detect-interface": true,
-      "strict-route": true
+      "auto-detect-interface": true
     },
     "hosts": {
       "dns.alidns.com": ["223.5.5.5", "223.6.6.6"],
