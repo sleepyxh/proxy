@@ -128,19 +128,21 @@ function main(config) {
       "dns-hijack": ["udp://any:53", "tcp://any:53"],
       "auto-route": true,
       "auto-redirect": true,
-      "auto-detect-interface": true
+      "auto-detect-interface": true,
+      "route-exclude-address-set": ["cn_ip"]
     },
     "hosts": {
       "dns.alidns.com": ["223.5.5.5", "223.6.6.6"],
-      "dns.google": ["8.8.8.8", "8.8.4.4"]
+      "dns.google": ["8.8.8.8", "8.8.4.4"],
+      "services.googleapis.cn": "services.googleapis.com"
     },
     "dns": {
       "enable": true,
       "ipv6": true,
       "cache-algorithm": "arc",
       "enhanced-mode": "fake-ip",
-      "fake-ip-range": "198.18.0.1/16",
-      "fake-ip-range6": "fdfe:dcba:9876::1/64",
+      "fake-ip-range": "198.18.0.1/15",
+      "fake-ip-range6": "2001:2::1/48",
       "fake-ip-filter": ["rule-set:private_domain", "rule-set:cn_domain"],
       "default-nameserver": ["223.5.5.5"],
       "proxy-server-nameserver": ["https://dns.alidns.com/dns-query"],
